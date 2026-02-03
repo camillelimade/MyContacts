@@ -55,6 +55,27 @@ public class Agenda {
             }
         }
     }
+    public void excluirContato(String nomeExcluir) {
+        if (nomeExcluir.isEmpty()){
+            Divisor();
+            System.out.println("Digite outro nome para a exclusão, ou verifique o que enviou!");
+            Divisor();
+        }else {
+            for (int i = 0; i < contatos.size(); i++) {
+                boolean Exclusao = nomeExcluir.equalsIgnoreCase(contatos.get(i).getNome());
+                if (Exclusao){
+                    Divisor();
+                    System.out.println("A conexão foi excluída! ");
+                    contatos.remove(i);
+                    Divisor();
+                } else if (i == contatos.size() -1 && Exclusao == false) {
+                    System.out.println("A conexão não foi encontrada, verifique a listagem! ");
+                }
+
+            }
+        }
+    }
+
 
 
     public static void main(String[] args) {

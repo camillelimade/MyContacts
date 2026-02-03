@@ -41,6 +41,9 @@ public class Main {
                     agenda.pesquisarContato(nomePesq);
                     break;
                 case 4:
+                    System.out.println("Digite o nome do contato que deseja excluir: ");
+                    String nomeExcluir =  sc.nextLine();
+                    agenda.excluirContato(nomeExcluir);
                     break;
                 case 5:
                     return;
