@@ -30,6 +30,11 @@ public class Agenda {
                     "E-mail inválido. Verifique o formato."
             );
         }
+        if (!telefoneValido(telefone)) {
+            throw new DadosContatoInvalidosException(
+                    "Telefone inválido. Use apenas números (10 ou 11 dígitos)."
+            );
+        }
 
         for (Contato contato : contatos) {
             if (contato.getNome().equalsIgnoreCase(nome)) {
@@ -74,27 +79,35 @@ public class Agenda {
         );
     }
 
-    public void excluirContato(String nomeExcluir) throws ContatoNaoEncontradoException{
-       if (nomeExcluir == null || nomeExcluir.isBlank()) {
-           throw new ContatoNaoEncontradoException(
-                   "O nome para a exclusão não deve ser vazio! "
-           );
-       }
-           for (int i = 0; i < contatos.size(); i++) {
-               if (contatos.get(i).getNome().equalsIgnoreCase(nomeExcluir)) {
-                   contatos.remove(i);
-                   return;
-               }
-           }
-           throw new ContatoNaoEncontradoException(
-                   "A conexão não foi encontrada para a exclusão! "
-           );
-       }
+    public void excluirContato(String nomeExcluir) throws ContatoNaoEncontradoException {
+        if (nomeExcluir == null || nomeExcluir.isBlank()) {
+            throw new ContatoNaoEncontradoException(
+                    "O nome para a exclusão não deve ser vazio! "
+            );
+        }
+        for (int i = 0; i < contatos.size(); i++) {
+            if (contatos.get(i).getNome().equalsIgnoreCase(nomeExcluir)) {
+                contatos.remove(i);
+                return;
+            }
+        }
+        throw new ContatoNaoEncontradoException(
+                "A conexão não foi encontrada para a exclusão! "
+        );
+    }
+
     private boolean emailValido(String email) {
         if (email == null) return false;
 
         return email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
     }
-    } // fecha Agenda
+
+    private boolean telefoneValido(String telefone) {
+        if (telefone == null) return false;
+
+        return telefone.matches("^\\d{10,11}$");
+    }
+
+} // fecha Agenda
 
 
