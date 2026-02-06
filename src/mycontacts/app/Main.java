@@ -1,7 +1,9 @@
 package mycontacts.app;
 import mycontacts.controller.Agenda;
 import mycontacts.exceptions.ContatoDuplicadoException;
+import mycontacts.exceptions.ContatoNaoEncontradoException;
 import mycontacts.exceptions.DadosContatoInvalidosException;
+import mycontacts.model.Contato;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -53,10 +55,6 @@ public class Main {
                             System.out.println(e.getMessage());
                             agenda.Divisor();
                         }
-
-                        agenda.Divisor();
-                        System.out.println("Contato registrado com sucesso! ");
-                        agenda.Divisor();
                         break;
                     case 2:
                         agenda.listarContatos();
@@ -64,12 +62,31 @@ public class Main {
                     case 3:
                         System.out.println("Digite o nome do contato que deseja: ");
                         String nomePesq = sc.nextLine();
-                        agenda.pesquisarContato(nomePesq);
+                        try{
+                            Contato contato = agenda.pesquisarContato(nomePesq);
+                            agenda.Divisor();
+                            System.out.println("Conexão não encontrada: ");
+                            System.out.println(contato.getNome());
+                            agenda.Divisor();
+                        } catch (ContatoNaoEncontradoException erro){
+                            agenda.Divisor();
+                            System.out.println(erro.getMessage());
+                            agenda.Divisor();
+                        }
                         break;
                     case 4:
                         System.out.println("Digite o nome do contato que deseja excluir: ");
                         String nomeExcluir =  sc.nextLine();
-                        agenda.excluirContato(nomeExcluir);
+                        try {
+                            agenda.excluirContato(nomeExcluir);
+                            agenda.Divisor();
+                            System.out.println("Conexão" + nomeExcluir + " excluido com sucesso!");
+                            agenda.Divisor();
+                        } catch (ContatoNaoEncontradoException e) {
+                            agenda.Divisor();
+                            System.out.println(e.getMessage());
+                            agenda.Divisor();
+                        }
                         break;
                     case 5:
                         return;

@@ -1,7 +1,10 @@
 package mycontacts.controller;
+
 import mycontacts.exceptions.ContatoDuplicadoException;
+import mycontacts.exceptions.ContatoNaoEncontradoException;
 import mycontacts.exceptions.DadosContatoInvalidosException;
 import mycontacts.model.Contato;
+
 import java.util.ArrayList;
 
 
@@ -12,7 +15,7 @@ public class Agenda {
         System.out.println("-----------------------------------");
     }
 
-    public void adicionarContato(String nome, String telefone, String email) throws DadosContatoInvalidosException, ContatoDuplicadoException  {
+    public void adicionarContato(String nome, String telefone, String email) throws DadosContatoInvalidosException, ContatoDuplicadoException {
         if (nome == null || nome.isBlank()
                 || telefone == null || telefone.isBlank()
                 || email == null || email.isBlank()) {
@@ -48,50 +51,38 @@ public class Agenda {
         }
     }
 
-    public void pesquisarContato(String nomePesq) {
-        if (nomePesq.isEmpty()) {
-            Divisor();
-            System.out.println("Digite outro nome, ou verifique o que enviou!");
-            Divisor();
-        } else {
-            for (int i = 0; i < contatos.size(); i++) {
-                boolean Pesquisa = nomePesq.equalsIgnoreCase(contatos.get(i).getNome());
-                if (Pesquisa) {
-                    Divisor();
-                    System.out.println("A conexão foi encontrada: ");
-                    System.out.println(contatos.get(i).toString());
-                    Divisor();
-                } else if (i == contatos.size() - 1 && Pesquisa == false) {
-                    System.out.println("A conexão não foi encontrada! ");
-                }
-
+    public Contato pesquisarContato(String nomePesq) throws ContatoNaoEncontradoException {
+        if (nomePesq == null || nomePesq.isBlank()) {
+            throw new ContatoNaoEncontradoException(
+                    "O nome para pesquisa não pode ser vazio."
+            );
+        }
+        for (Contato contato : contatos) {
+            if (contato.getNome().equalsIgnoreCase(nomePesq)) {
+                return contato;
             }
         }
+        throw new ContatoNaoEncontradoException(
+                "A conexão não foi encontrada! Verifique as listadas e volte aqui depois. "
+        );
     }
 
-    public void excluirContato(String nomeExcluir) {
-        if (nomeExcluir.isEmpty()) {
-            Divisor();
-            System.out.println("Digite outro nome para a exclusão, ou verifique o que enviou!");
-            Divisor();
-        } else {
-            for (int i = 0; i < contatos.size(); i++) {
-                boolean Exclusao = nomeExcluir.equalsIgnoreCase(contatos.get(i).getNome());
-                if (Exclusao) {
-                    Divisor();
-                    System.out.println("A conexão foi excluída! ");
-                    contatos.remove(i);
-                    Divisor();
-                } else if (i == contatos.size() - 1 && Exclusao == false) {
-                    System.out.println("A conexão não foi encontrada, verifique a listagem! ");
-                }
-
-            }
-        }
-    }
+    public void excluirContato(String nomeExcluir) throws ContatoNaoEncontradoException{
+       if (nomeExcluir == null || nomeExcluir.isBlank()) {
+           throw new ContatoNaoEncontradoException(
+                   "O nome para a exclusão não deve ser vazio! "
+           );
+       }
+           for (int i = 0; i < contatos.size(); i++) {
+               if (contatos.get(i).getNome().equalsIgnoreCase(nomeExcluir)) {
+                   contatos.remove(i);
+                   return;
+               }
+           }
+           throw new ContatoNaoEncontradoException(
+                   "A conexão não foi encontrada para a exclusão! "
+           );
+       }
+    } // fecha Agenda
 
 
-    public static void main(String[] args) {
-
-    }
-}
