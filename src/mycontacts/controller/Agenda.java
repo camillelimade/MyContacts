@@ -19,8 +19,15 @@ public class Agenda {
         if (nome == null || nome.isBlank()
                 || telefone == null || telefone.isBlank()
                 || email == null || email.isBlank()) {
+
             throw new DadosContatoInvalidosException(
                     "Nome, telefone e email são obrigatórios."
+            );
+        }
+
+        if (!emailValido(email)) {
+            throw new DadosContatoInvalidosException(
+                    "E-mail inválido. Verifique o formato."
             );
         }
 
@@ -83,6 +90,11 @@ public class Agenda {
                    "A conexão não foi encontrada para a exclusão! "
            );
        }
+    private boolean emailValido(String email) {
+        if (email == null) return false;
+
+        return email.matches("^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$");
+    }
     } // fecha Agenda
 
 
