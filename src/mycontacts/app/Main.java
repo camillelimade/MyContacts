@@ -65,12 +65,12 @@ public class Main {
                         try{
                             Contato contato = agenda.pesquisarContato(nomePesq);
                             agenda.Divisor();
-                            System.out.println("Conexão não encontrada: ");
+                            System.out.println("Conexões encontradas: ");
                             System.out.println(contato.getNome());
                             agenda.Divisor();
                         } catch (ContatoNaoEncontradoException erro){
                             agenda.Divisor();
-                            System.out.println(erro.getMessage());
+                            System.out.println("Conexão não encontrada: " + erro.getMessage());
                             agenda.Divisor();
                         }
                         break;
